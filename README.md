@@ -49,7 +49,7 @@ action.export2.file=output.json
 
 ```
 执行命令启动导出
-java -jar copydb.jar -Dspring.profiles.active=export export export2
+java -Dspring.profiles.active=export -jar copydb.jar export export2
 
 ## 将数据导入数据库
 * 修改配置文件application-import.properties
@@ -78,4 +78,4 @@ action.import2.target.table=deliveryOdrStage
 
 ```
 执行命令启动导出
-java -jar copydb.jar -Dspring.profiles.active=import import import2
+java -Dspring.profiles.active=import -jar copydb.jar import import2
