@@ -18,64 +18,35 @@ CopyDB
 ```
 
 具体使用方法如下：
-## 从数据库导出数据
+## 填写配置文件
 * 修改配置文件application-export.properties
 ```
 #定义第一个数据源src1
-src1.datasource.url=jdbc:sqlserver://10.204.8.17:1433;databaseName=pcgscct_sit
-src1.datasource.username=s_SCCT
-src1.datasource.password=Initial1
-src1.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+database.src1.url=jdbc:sqlserver://10.204.8.17:1433;databaseName=pcgscct_sit
+database.src1.username=s_SCCT
+database.src1.password=Initial1
+database.src1.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
 
 #根据需要可以定义多个数据源，这里定义第二个数据源src2
-src2.datasource.url=jdbc:sqlserver://10.204.8.18:1433;databaseName=scct_stage
-src2.datasource.username=s_SCCT
-src2.datasource.password=Initial1
-src2.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
+database.src2.url=jdbc:sqlserver://10.204.8.18:1433;databaseName=scct_stage
+database.src2.username=s_SCCT
+database.src2.password=Initial1
+database.src2.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
 
-#定义一个动作export
-action.export.name=shpmntStatusStage
-action.export.type=export
-action.export.datasource=src1
-action.export.sql=select * from shpmntStatusStage with(nolock) where DLVRY_NUM='5221175600'
-action.export.file=output.json
+#定义一个数据集shpmntStatusStage
+dataset.shpmntStatusStage.table=shpmntStatusStage
+dataset.shpmntStatusStage.sql=select * from shpmntStatusStage with(nolock) where DLVRY_NUM='5221175600'
 
-#根据需要可以定义多个动作，这里定义第二个动作export2
-action.export2.name=deliveryOdrStage
-action.export2.type=export
-action.export2.datasource=src2
-action.export2.sql=select * from deliveryOdrStage with(nolock) where DLVRY_NUM='5221175600'
-action.export2.file=output.json
+#根据需要可以定义多个数据集，这里定义第二个数据集deliveryOdrStage
+dataset.deliveryOdrStage.table=deliveryOdrStage
+dataset.deliveryOdrStage.sql=select * from deliveryOdrStage with(nolock) where DLVRY_NUM='5221175600'
 
 ```
+
+## 从数据库导出数据
 执行命令启动导出
-java -Dspring.profiles.active=export -jar copydb.jar export export2
+java -jar copydb.jar --from=db:src1 --to=file:output.json --datasets=shpmntStatusStage,deliveryOdrStage
 
 ## 将数据导入数据库
-* 修改配置文件application-import.properties
-```
-#定义第一个数据源src1
-src1.datasource.url=jdbc:sqlserver://10.204.8.17:1433;databaseName=pcgscct_sit
-src1.datasource.username=s_SCCT
-src1.datasource.password=Initial1
-src1.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
-
-#定义一个动作import
-action.import.name=shpmntStatusStage
-action.import.type=import
-action.import.datasource=src1
-action.import.source.file=output.json
-action.import.source.name=shpmntStatusStage
-action.import.target.table=shpmntStatusStage
-
-#定义第二个动作import2
-action.import2.name=deliveryOdrStage
-action.import2.type=import
-action.import2.datasource=src1
-action.import2.source.file=output.json
-action.import2.source.name=deliveryOdrStage
-action.import2.target.table=deliveryOdrStage
-
-```
 执行命令启动导出
-java -Dspring.profiles.active=import -jar copydb.jar import import2
+java -jar copydb.jar --from=file:output.json --to=db:src1 --datasets=shpmntStatusStage,deliveryOdrStage

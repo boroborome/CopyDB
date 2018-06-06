@@ -3,6 +3,8 @@ buildscript {
 		springBootVersion = '2.0.2.RELEASE'
 	}
 	repositories {
+		mavenLocal()
+		maven { url "http://repo.spring.io/libs-milestone" }
 		mavenCentral()
 	}
 	dependencies {
@@ -18,13 +20,25 @@ apply plugin: 'io.spring.dependency-management'
 group = 'com.happy3w.etl.copydb'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
-
+repositories {
+	mavenLocal()
+	maven { url "http://repo.spring.io/libs-milestone" }
+	mavenCentral()
+}
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
+
+	compileOnly('org.projectlombok:lombok:1.16.16')
+
+	runtimeOnly('org.apache.commons:commons-dbcp2:2.3.0')
+	runtimeOnly('com.microsoft.sqlserver:sqljdbc4:4.0')
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompileOnly('org.projectlombok:lombok:1.16.16')
 }
