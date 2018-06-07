@@ -56,8 +56,8 @@ public class CopyDBApplication implements CommandLineRunner {
 //		System.out.println(environment.getProperty("from"));
 //
 //		DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
-//		BindResult<DataSource> result = binder.bind("src1.datasource", Bindable.ofInstance(dataSourceBuilder.build()));
-//		System.out.println(result.get().getConnection().isValid(1000));
+		BindResult<DataSource> result = binder.bind("db.src1", Bindable.ofInstance(DataSourceBuilder.create().build()));
+		System.out.println(result.get().getConnection().isValid(1000));
 
 	}
 
