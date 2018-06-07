@@ -1,5 +1,6 @@
-package com.happy3w.etl.copydb.copydb;
+package com.happy3w.etl.copydb;
 
+import com.happy3w.etl.copydb.model.CustomInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +15,6 @@ import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 

@@ -1,4 +1,4 @@
-package com.happy3w.etl.copydb.copydb;
+package com.happy3w.etl.copydb.model;
 
 public class DatabaseDataTermination extends AbstractDataTermination {
     public static final String Type = "db";

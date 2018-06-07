@@ -1,4 +1,4 @@
-package com.happy3w.etl.copydb.copydb;
+package com.happy3w.etl.copydb;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CopydbApplicationTests {
+public class CopyDBApplicationTests {
 
 	@Test
 	public void contextLoads() {

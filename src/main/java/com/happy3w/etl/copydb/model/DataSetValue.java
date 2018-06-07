@@ -1,4 +1,4 @@
-package com.happy3w.etl.copydb.copydb;
+package com.happy3w.etl.copydb.model;
 
 import lombok.Getter;
 import lombok.Setter;
