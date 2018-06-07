@@ -1,4 +1,4 @@
-package com.happy3w.etl.copydb;
+package com.happy3w.etl.copydb.app;
 
 import com.happy3w.etl.copydb.model.CustomInput;
 import org.springframework.beans.factory.annotation.Autowired;

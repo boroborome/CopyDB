@@ -1,0 +1,42 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
+plugins { id "io.spring.dependency-management" }
+
+ext { springBootVersion = '2.0.2.RELEASE' }
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+//apply plugin: 'io.spring.dependency-management'
+
+group = 'com.happy3w.etl'
+
+jar {
+    baseName = 'copydb.lib'
+    version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    maven { url "http://repo.spring.io/libs-milestone" }
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter')
+
+    compileOnly('org.projectlombok:lombok:1.16.16')
+
+    runtimeOnly('org.apache.commons:commons-dbcp2:2.3.0')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}

@@ -1,0 +1,37 @@
+buildscript {
+    ext { springBootVersion = '2.0.2.RELEASE' }
+    repositories {
+        mavenLocal()
+        maven { url "http://repo.spring.io/libs-milestone" }
+        mavenCentral()
+    }
+    dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
+}
+
+//plugins {
+//    id "io.spring.dependency-management"
+//}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+jar {
+    baseName = 'copydb'
+    version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+
+repositories { mavenCentral() }
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter')
+    compile project(':library')
+
+    compileOnly('org.projectlombok:lombok:1.16.16')
+
+    runtimeOnly('com.microsoft.sqlserver:sqljdbc4:4.0')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
