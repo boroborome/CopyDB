@@ -34,8 +34,9 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     compile('org.reflections:reflections:0.9.11')
-    compileOnly('org.projectlombok:lombok:1.16.16')
+    compile('com.fasterxml.jackson.core:jackson-databind:2.9.5')
 
+    compileOnly('org.projectlombok:lombok:1.16.16')
     runtimeOnly('org.apache.commons:commons-dbcp2:2.3.0')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')

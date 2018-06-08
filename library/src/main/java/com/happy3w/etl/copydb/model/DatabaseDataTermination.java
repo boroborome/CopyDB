@@ -5,7 +5,7 @@ public class DatabaseDataTermination extends AbstractDataTermination {
 
     private String fileName;
 
-    protected DatabaseDataTermination() {
+    public DatabaseDataTermination() {
         super(Type);
     }
 
