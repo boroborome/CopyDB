@@ -39,6 +39,8 @@ dependencies {
     runtimeOnly('org.apache.commons:commons-dbcp2:2.3.0')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.boot:spring-boot-autoconfigure')
+    testCompile('org.junit.jupiter:junit-jupiter-api')
 }
 
 dependencyManagement {
