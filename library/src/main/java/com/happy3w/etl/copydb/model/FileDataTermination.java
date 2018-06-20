@@ -61,6 +61,11 @@ public class FileDataTermination extends AbstractDataTermination {
     }
 
     @Override
+    public void initializeByString(String terminationString, IConfigSuppler configSuppler) {
+        this.fileName = terminationString;
+    }
+
+    @Override
     public void save(DataSetValue dataSetValue, IConfigSuppler configSuppler) {
 
     }
@@ -68,5 +73,10 @@ public class FileDataTermination extends AbstractDataTermination {
     @Override
     public DataSetValue read(String dataSetName, IConfigSuppler configSuppler) {
         return null;
+    }
+
+    @Override
+    public void close() {
+
     }
 }

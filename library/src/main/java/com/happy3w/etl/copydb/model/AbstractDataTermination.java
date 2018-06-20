@@ -1,5 +1,8 @@
 package com.happy3w.etl.copydb.model;
 
+import lombok.Getter;
+
+@Getter
 public abstract class AbstractDataTermination {
     private final String type;
 
@@ -7,6 +10,8 @@ public abstract class AbstractDataTermination {
         this.type = type;
     }
 
+    public abstract void initializeByString(String terminationString, IConfigSuppler configSuppler);
     public abstract void save(DataSetValue dataSetValue, IConfigSuppler configSuppler);
     public abstract DataSetValue read(String dataSetName, IConfigSuppler configSuppler);
+    public abstract void close();
 }

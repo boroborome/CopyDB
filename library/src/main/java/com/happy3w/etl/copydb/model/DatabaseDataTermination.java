@@ -13,6 +13,11 @@ public class DatabaseDataTermination extends AbstractDataTermination {
     }
 
     @Override
+    public void initializeByString(String terminationString, IConfigSuppler configSuppler) {
+
+    }
+
+    @Override
     public void save(DataSetValue dataSetValue, IConfigSuppler configSuppler) {
 
     }
@@ -20,5 +25,10 @@ public class DatabaseDataTermination extends AbstractDataTermination {
     @Override
     public DataSetValue read(String dataSetName, IConfigSuppler configSuppler) {
         return null;
+    }
+
+    @Override
+    public void close() {
+
     }
 }

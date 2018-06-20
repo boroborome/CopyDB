@@ -1,5 +1,7 @@
 package com.happy3w.etl.copydb.model;
 
 public interface IConfigSuppler {
-    DataSetDefine getDataSetDefine(String dataSetName);
+    <T> T loadConfig(Class<T> configType, String name);
+
+    <T> boolean loadConfig(T config, String name);
 }
