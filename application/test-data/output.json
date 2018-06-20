@@ -1,0 +1,25 @@
+[
+  {
+    "table": "students",
+    "columns": [
+      {
+        "name": "name",
+        "dataType": "String"
+      },
+      {
+        "name": "age",
+        "dataType": "int"
+      }
+    ],
+    "values": [
+      [
+        "Jim",
+        6
+      ],
+      [
+        "Tom",
+        4
+      ]
+    ]
+  }
+]

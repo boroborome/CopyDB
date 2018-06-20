@@ -7,5 +7,6 @@ public abstract class AbstractDataTermination {
         this.type = type;
     }
 
-
+    public abstract void save(DataSetValue dataSetValue, IConfigSuppler configSuppler);
+    public abstract DataSetValue read(String dataSetName, IConfigSuppler configSuppler);
 }

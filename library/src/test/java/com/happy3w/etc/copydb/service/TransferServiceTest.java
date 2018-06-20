@@ -5,6 +5,7 @@ import com.happy3w.etl.copydb.model.DataSetDefine;
 import com.happy3w.etl.copydb.model.DataSetValue;
 import com.happy3w.etl.copydb.model.FileDataTermination;
 import com.happy3w.etl.copydb.service.TransferService;
+import com.happy3w.etl.copydb.utils.MapBuilder;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,8 +58,12 @@ public class TransferServiceTest {
                                         .build()
                         ))
                         .values(Arrays.asList(
-                                Arrays.asList("Jim", 6),
-                                Arrays.asList("Tom", 4)
+                                MapBuilder.<String, Object>of("name", "Jim")
+                                        .and("age", 6)
+                                        .build(),
+                                MapBuilder.<String, Object>of("name", "Tom")
+                                        .and("age", 4)
+                                        .build()
                         ))
                         .build()
         ));
