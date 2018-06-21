@@ -72,7 +72,7 @@ public class FileDataTermination extends AbstractDataTermination {
 
     @Override
     public void save(DataSetValue dataSetValue, IConfigSuppler configSuppler) {
-        DataSetValue orgDataSetValue = read(dataSetValue.getTable(), configSuppler);
+        DataSetValue orgDataSetValue = findDataSetValueByTableName(dataSetValue.getTable());
         if (orgDataSetValue == null) {
             this.dataSetValues.add(dataSetValue);
         } else {
@@ -81,8 +81,7 @@ public class FileDataTermination extends AbstractDataTermination {
         changed = true;
     }
 
-    @Override
-    public DataSetValue read(String dataSetName, IConfigSuppler configSuppler) {
+    private List<DataSetValue> getAllDataSetValues() {
         if (dataSetValues == null) {
             try {
                 dataSetValues = loadDataSetValues(fileName);
@@ -91,15 +90,30 @@ public class FileDataTermination extends AbstractDataTermination {
                 return null;
             }
         }
+        return dataSetValues;
+    }
+
+    private DataSetValue findDataSetValueByDataSetName(String dataSetName, IConfigSuppler configSuppler) {
+        DataSetDefine dataSetDefine = configSuppler.loadConfig(DataSetDefine.class, DataSetDefine.dataSetDefineName(dataSetName));
+        return findDataSetValueByTableName(dataSetDefine.getTable());
+    }
+
+    private DataSetValue findDataSetValueByTableName(String tableName) {
+        List<DataSetValue> allDataSetValues = getAllDataSetValues();
 
         DataSetValue dataSetValue = null;
-        for (DataSetValue value : dataSetValues) {
-            if (Objects.equals(dataSetName, value.getTable())) {
+        for (DataSetValue value : allDataSetValues) {
+            if (Objects.equals(tableName, value.getTable())) {
                 dataSetValue = value;
                 break;
             }
         }
         return dataSetValue;
+    }
+
+    @Override
+    public DataSetValue read(String dataSetName, IConfigSuppler configSuppler) {
+        return findDataSetValueByDataSetName(dataSetName, configSuppler);
     }
 
     private List<DataSetValue> loadDataSetValues(String fileName) throws IOException {
