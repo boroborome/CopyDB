@@ -5,11 +5,10 @@ import javax.sql.DataSource;
 public class DatabaseDataTermination extends AbstractDataTermination {
     public static final String Type = "db";
 
-    private final DataSource dataSource;
+    private DataSource dataSource;
 
-    public DatabaseDataTermination(DataSource dataSource) {
+    public DatabaseDataTermination() {
         super(Type);
-        this.dataSource = dataSource;
     }
 
     @Override

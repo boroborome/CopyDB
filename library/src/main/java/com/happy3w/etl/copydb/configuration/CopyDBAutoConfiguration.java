@@ -27,7 +27,7 @@ public class CopyDBAutoConfiguration {
                         AbstractDataTermination instance = c.newInstance();
                         DataTerminationFactory.register(instance.getType(), c);
                     } catch (Exception e) {
-                        log.error("Failed in registering DataTermination:{}", c.getName());
+                        log.error("Failed in registering DataTermination:" + c.getName(), e);
                     }
                 });
             }

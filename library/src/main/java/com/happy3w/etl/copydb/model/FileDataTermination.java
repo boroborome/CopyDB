@@ -8,8 +8,13 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Getter
@@ -19,7 +24,7 @@ public class FileDataTermination extends AbstractDataTermination {
 
     private String fileName;
     private List<DataSetValue> dataSetValues;
-
+    private boolean changed = false;
     public FileDataTermination() {
         super(Type);
     }
@@ -67,16 +72,61 @@ public class FileDataTermination extends AbstractDataTermination {
 
     @Override
     public void save(DataSetValue dataSetValue, IConfigSuppler configSuppler) {
-
+        DataSetValue orgDataSetValue = read(dataSetValue.getTable(), configSuppler);
+        if (orgDataSetValue == null) {
+            this.dataSetValues.add(dataSetValue);
+        } else {
+            orgDataSetValue.getValues().addAll(dataSetValue.getValues());
+        }
+        changed = true;
     }
 
     @Override
     public DataSetValue read(String dataSetName, IConfigSuppler configSuppler) {
-        return null;
+        if (dataSetValues == null) {
+            try {
+                dataSetValues = loadDataSetValues(fileName);
+            } catch (IOException e) {
+                log.error("Failed to load file:" + fileName, e);
+                return null;
+            }
+        }
+
+        DataSetValue dataSetValue = null;
+        for (DataSetValue value : dataSetValues) {
+            if (Objects.equals(dataSetName, value.getTable())) {
+                dataSetValue = value;
+                break;
+            }
+        }
+        return dataSetValue;
+    }
+
+    private List<DataSetValue> loadDataSetValues(String fileName) throws IOException {
+        File jsonFile = new File(fileName);
+        if (!jsonFile.exists()) {
+            return new ArrayList<>();
+        }
+
+        FileInputStream jsonStream = new FileInputStream(fileName);
+        ObjectMapper map = new ObjectMapper();
+        JavaType parametricListType = map.getTypeFactory().constructParametricType(List.class, DataSetValue.class);
+
+        return map.readValue(jsonStream, parametricListType);
     }
 
     @Override
-    public void close() {
+    public void close() throws IOException {
+        if (!changed) {
+            return;
+        }
+        File outputFile = new File(fileName);
+//        if (!outputFile.exists()) {
+//            outputFile.createNewFile();
+//        }
+
+        ObjectMapper map = new ObjectMapper();
+        map.writeValue(outputFile, dataSetValues);
 
     }
 }
