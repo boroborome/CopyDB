@@ -33,6 +33,7 @@ repositories {
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
+    compile('org.springframework:spring-jdbc')
     compile('org.reflections:reflections:0.9.11')
     compile('com.fasterxml.jackson.core:jackson-databind:2.9.5')
 

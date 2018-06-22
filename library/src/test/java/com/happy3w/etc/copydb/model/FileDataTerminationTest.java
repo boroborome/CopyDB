@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class FileDataTerminationTest {
     @Test
     public void should_convert_string_to_json_success() {
-        String str = "[{\"table\":\"tableName\",\"columns\":[{\"name\":\"name\",\"dataType\":\"String\"},{\"name\":\"age\",\"dataType\":\"int\"}],\"values\":[[\"Jim\",6],[\"Tom\",4]]}]";
+        String str = "[{\"table\":\"tableName\",\"columns\":[{\"name\":\"name\",\"dataType\":\"nvarchar\",\"size\":0,\"autoIncrease\":false,\"nullable\":false},{\"name\":\"age\",\"dataType\":\"int\",\"size\":0,\"autoIncrease\":false,\"nullable\":false}],\"values\":[{\"name\":\"Jim\",\"age\":6},{\"name\":\"Tom\",\"age\":4}]}]";
 
         FileDataTermination fileDataTermination = FileDataTermination.fromJson(str, "fileName.json");
         Assert.assertNotNull(fileDataTermination);
@@ -35,7 +35,7 @@ public class FileDataTerminationTest {
                         .columns(Arrays.asList(
                                 ColumnDefine.builder()
                                         .name("name")
-                                        .dataType("String")
+                                        .dataType("nvarchar")
                                         .build(),
                                 ColumnDefine.builder()
                                         .name("age")
@@ -54,7 +54,7 @@ public class FileDataTerminationTest {
         ));
 
         String str = fileDataTermination.getJson();
-        Assert.assertEquals("[{\"table\":\"tableName\",\"columns\":[{\"name\":\"name\",\"dataType\":\"String\"},{\"name\":\"age\",\"dataType\":\"int\"}],\"values\":[[\"Jim\",6],[\"Tom\",4]]}]",
+        Assert.assertEquals("[{\"table\":\"tableName\",\"columns\":[{\"name\":\"name\",\"dataType\":\"nvarchar\",\"size\":0,\"autoIncrease\":false,\"nullable\":false},{\"name\":\"age\",\"dataType\":\"int\",\"size\":0,\"autoIncrease\":false,\"nullable\":false}],\"values\":[{\"name\":\"Jim\",\"age\":6},{\"name\":\"Tom\",\"age\":4}]}]",
                 str);
     }
 }
