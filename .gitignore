@@ -5,3 +5,5 @@ build
 config
 out
 application/test-data-temp
+/.project
+/.settings
