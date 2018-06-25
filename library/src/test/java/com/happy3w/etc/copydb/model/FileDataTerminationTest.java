@@ -1,6 +1,5 @@
 package com.happy3w.etc.copydb.model;
 
-import com.google.common.collect.Maps;
 import com.happy3w.etl.copydb.model.ColumnDefine;
 import com.happy3w.etl.copydb.model.DataSetValue;
 import com.happy3w.etl.copydb.model.FileDataTermination;
