@@ -1,7 +1,7 @@
 group 'com.happy3w.etl'
-version '7.3.0'
+version '1.0.0'
 
-def artifactId = "copydb"
+def artifactId = "copy-db"
 
 buildscript {
     repositories {
@@ -11,6 +11,7 @@ buildscript {
     }
     dependencies {
         classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.7.1'
     }
 }
 
@@ -19,6 +20,7 @@ ext { springBootVersion = '2.0.2.RELEASE' }
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'io.spring.dependency-management'
+apply from: 'publish.gradle'
 
 jar {
     baseName = 'copydb.lib'
