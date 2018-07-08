@@ -26,17 +26,33 @@ import java.util.Map;
 public class MapBuilder<K, V> {
     private Map<K, V> map = new HashMap<>();
 
-    /** Constructor that also enters the first entry. */
+    /**
+     * Constructor that also enters the first entry.
+     * @param key the first key
+     * @param value the first value
+     */
     private MapBuilder(K key, V value) {
         and(key, value);
     }
 
-    /** Factory method that creates the builder and enters the first entry. */
+    /**
+     * Factory method that creates the builder and enters the first entry.
+     * @param key key to add in map
+     * @param value value to add in map
+     * @param <A> key type
+     * @param <B> value type
+     * @return The MapBuilder
+     */
     public static <A, B> MapBuilder<A, B> of(A key, B value) {
         return new MapBuilder<>(key, value);
     }
 
-    /** Puts the key-value pair to the map and returns itself for method chaining */
+    /**
+     * Puts the key-value pair to the map and returns itself for method chaining
+     * @param key key to add in map
+     * @param value value to add in map
+     * @return This MapBuilder
+     */
     public MapBuilder<K, V> and(K key, V value) {
         map.put(key, value);
         return this;
@@ -51,6 +67,10 @@ public class MapBuilder<K, V> {
         return Collections.unmodifiableMap(map);
     }
 
+    /**
+     * Return an mutable map
+     * @return contents of MapBuilder as an modifiable map.
+     */
     public Map<K, V> buildNormal() {
         return map;
     }
