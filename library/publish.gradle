@@ -2,7 +2,7 @@ apply plugin: 'nexus'
 
 modifyPom {
     project {
-        name 'copy-db'
+        name 'copydb'
         description 'A tool copy data between database and file.'
         url 'https://github.com/boroborome/CopyDB'
         packaging 'jar'

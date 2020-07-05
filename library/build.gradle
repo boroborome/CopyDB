@@ -1,5 +1,5 @@
 group 'com.happy3w.etl'
-version '1.0.1'
+version '0.0.1.RELEASE'
 
 def artifactId = "copydb"
 
@@ -24,7 +24,7 @@ apply from: 'publish.gradle'
 
 jar {
     baseName = 'copydb'
-    version = '0.0.1-SNAPSHOT'
+    version = '0.0.1.RELEASE'
 }
 sourceCompatibility = 1.8
 

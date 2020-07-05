@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,25 +59,6 @@ public class FileDataTermination extends AbstractDataTermination {
                     MessageFormat.format("FileDataTermination({0}) can't be convert to json.", fileName),
                     e);
         }
-    }
-
-    public static FileDataTermination fromJson(String json, String fileName) {
-        if (StringUtils.isEmpty(json))
-            return null;
-        ObjectMapper map = new ObjectMapper();
-        JavaType parametricUpgradeDataType = map.getTypeFactory().constructParametricType(List.class, DataSetValue.class);
-
-        List<DataSetValue> objResult = null;
-        try {
-            objResult = map.readValue(json, parametricUpgradeDataType);
-        } catch (java.io.IOException e) {
-            log.error("Failed to convert json to object. json is", e);
-        }
-
-        FileDataTermination fileDataTermination = new FileDataTermination();
-        fileDataTermination.fileName = fileName;
-        fileDataTermination.dataSetValues = objResult;
-        return fileDataTermination;
     }
 
     @Override
@@ -135,31 +117,75 @@ public class FileDataTermination extends AbstractDataTermination {
         return findDataSetValueByDataSetName(dataSetName, configSuppler);
     }
 
-    private List<DataSetValue> loadDataSetValues(String fileName) throws IOException {
+    private static List<DataSetValue> loadDataSetValues(String fileName) throws IOException {
         File jsonFile = new File(fileName);
         if (!jsonFile.exists()) {
             return new ArrayList<>();
         }
 
         FileInputStream jsonStream = new FileInputStream(fileName);
+        return loadDataSetValues(jsonStream);
+    }
+
+    private static List<DataSetValue> loadDataSetValues(InputStream jsonFileInputStream) throws IOException {
         ObjectMapper map = new ObjectMapper();
         JavaType parametricListType = map.getTypeFactory().constructParametricType(List.class, DataSetValue.class);
 
-        return map.readValue(jsonStream, parametricListType);
+        return map.readValue(jsonFileInputStream, parametricListType);
     }
 
     @Override
     public void close() throws IOException {
-        if (!changed) {
+        if (!changed || StringUtils.isEmpty(fileName)) {
             return;
         }
         File outputFile = new File(fileName);
-//        if (!outputFile.exists()) {
-//            outputFile.createNewFile();
-//        }
 
         ObjectMapper map = new ObjectMapper();
         map.writeValue(outputFile, dataSetValues);
 
+    }
+
+    public static FileDataTermination fromJson(String json, String fileName) {
+        if (StringUtils.isEmpty(json)) {
+            return null;
+        }
+        ObjectMapper map = new ObjectMapper();
+        JavaType parametricUpgradeDataType = map.getTypeFactory().constructParametricType(List.class, DataSetValue.class);
+
+        List<DataSetValue> objResult = null;
+        try {
+            objResult = map.readValue(json, parametricUpgradeDataType);
+        } catch (java.io.IOException e) {
+            log.error("Failed to convert json to object. json is", e);
+        }
+
+        FileDataTermination fileDataTermination = new FileDataTermination();
+        fileDataTermination.fileName = fileName;
+        fileDataTermination.dataSetValues = objResult;
+        return fileDataTermination;
+    }
+
+    public static FileDataTermination fromJsonFile(String jsonFileName) throws IOException {
+        if (StringUtils.isEmpty(jsonFileName)) {
+            return null;
+        }
+
+        FileDataTermination fileDataTermination = new FileDataTermination();
+        fileDataTermination.fileName = jsonFileName;
+        fileDataTermination.dataSetValues = loadDataSetValues(jsonFileName);
+        return fileDataTermination;
+    }
+
+
+    public static FileDataTermination fromJsonFile(InputStream jsonFileInputStream) throws IOException {
+        if (jsonFileInputStream == null) {
+            return null;
+        }
+
+        FileDataTermination fileDataTermination = new FileDataTermination();
+        fileDataTermination.fileName = null;
+        fileDataTermination.dataSetValues = loadDataSetValues(jsonFileInputStream);
+        return fileDataTermination;
     }
 }

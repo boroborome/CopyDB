@@ -16,6 +16,7 @@
 package com.happy3w.etl.copydb.model;
 
 import com.happy3w.etl.copydb.model.type.AbstractDataTypeAdapter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,6 +35,7 @@ import java.util.Map;
  * This DataTermination is used to save or read data to database
  * @author boroborome
  */
+@Slf4j
 public class DatabaseDataTermination extends AbstractDataTermination {
     public static final String Type = "db";
 
@@ -140,7 +142,7 @@ public class DatabaseDataTermination extends AbstractDataTermination {
     private List<ColumnDefine> getColumnDefines(String tableName) throws SQLException {
         List<ColumnDefine> columnDefines = new ArrayList<>();
         DatabaseMetaData metaData = jdbcTemplate.getDataSource().getConnection().getMetaData();
-        outputResultSet(metaData.getTypeInfo());
+//        outputResultSet(metaData.getTypeInfo());
         ResultSet rs = metaData.getColumns(null, null, tableName.toUpperCase(), null);
         while (rs.next()) {
             int typeCode = rs.getInt("DATA_TYPE");
@@ -177,6 +179,22 @@ public class DatabaseDataTermination extends AbstractDataTermination {
     }
     @Override
     public void close() {
+        try {
+            jdbcTemplate.getDataSource().getConnection().close();
+        } catch (SQLException e) {
+            log.error("Error when close db connection.", e);
+        }
+    }
 
+    public static final DatabaseDataTermination from(DataSource dataSource) {
+        DatabaseDataTermination databaseDataTermination = new DatabaseDataTermination();
+        databaseDataTermination.jdbcTemplate = new JdbcTemplate(dataSource);
+        return databaseDataTermination;
+    }
+
+    public static final DatabaseDataTermination from(JdbcTemplate jdbcTemplate) {
+        DatabaseDataTermination databaseDataTermination = new DatabaseDataTermination();
+        databaseDataTermination.jdbcTemplate = jdbcTemplate;
+        return databaseDataTermination;
     }
 }

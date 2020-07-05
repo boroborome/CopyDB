@@ -1,0 +1,1 @@
+./gradlew library:uploadArchives -PnexusUsername=boroborome '-PnexusPassword=javaJun26:23' '-Psigning.keyId=167AC1B0' '-Psigning.password=JulThu5 21:35' -Psigning.secretKeyRingFile=maven/boroborome@sina.com.gpg
